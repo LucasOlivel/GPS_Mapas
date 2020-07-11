@@ -2,4 +2,6 @@
     <string name="app_name">GPS Mapas</string>
     <string name="action_settings">Settings</string>
     <string name="no_gps_no_app">Sem permissão para utilizar o GPS. Favor alterar nas configurações.</string>
+    <string name="pontoInteresse">O que deseja encontrar?</string>
+    <string name="conceder_gps">Conceder permissão de GPS</string>
 </resources>

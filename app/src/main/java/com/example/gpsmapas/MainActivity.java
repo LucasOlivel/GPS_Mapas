@@ -12,6 +12,7 @@ import android.os.Bundle;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
+import com.google.android.material.textfield.TextInputEditText;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -21,6 +22,8 @@ import androidx.core.app.ActivityCompat;
 import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -33,6 +36,8 @@ public class MainActivity extends AppCompatActivity {
     private LocationManager locationManager;
     private LocationListener locationListener; //Observador do Manager
     private TextView locationTextView;
+    private TextInputEditText pontoInteresseEditInput;
+    private Button concederGPSButton;
     private double latitude;
     private double longitude;
 
@@ -70,18 +75,26 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         locationTextView = findViewById(R.id.locationTextView);
-        Toolbar toolbar = findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
+        pontoInteresseEditInput = findViewById(R.id.pontoInteresseEditInput);
         configurarGPS();
         FloatingActionButton fab = findViewById(R.id.fab);
+        concederGPSButton = findViewById(R.id.concederGPSButton);
 
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Uri uri = Uri.parse(String.format(Locale.getDefault(), "geo:%f,%f?q=restaurantes", latitude, longitude));
+                Uri uri = Uri.parse(String.format(Locale.getDefault(), "geo:%f,%f?q="+pontoInteresseEditInput.getText(), latitude, longitude));
                 Intent mapIntent = new Intent(Intent.ACTION_VIEW, uri);
                 mapIntent.setPackage("com.google.android.apps.maps");
                 startActivity(mapIntent);
+            }
+        });
+
+        concederGPSButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ActivityCompat.requestPermissions(MainActivity.super.getParent(), new String[]{Manifest.permission.ACCESS_FINE_LOCATION},
+                        GPS_REQUEST_CODE);
             }
         });
     }
